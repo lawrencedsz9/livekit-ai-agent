@@ -1,7 +1,7 @@
 import logging
 from livekit.agents import function_tool, RunContext
 import requests
-from langchain_community.tools import DuckDuckGoSearchRun
+from ddgs import DDGS
 import os
 import smtplib
 from email.mime.multipart import MIMEMultipart  
@@ -36,9 +36,23 @@ async def search_web(
     Search the web using DuckDuckGo.
     """
     try:
-        results = DuckDuckGoSearchRun().run(tool_input=query)
-        logging.info(f"Search results for '{query}': {results}")
-        return results
+        with DDGS() as ddgs:
+            results = list(ddgs.text(query, max_results=5))
+            
+            if not results:
+                return f"No search results found for '{query}'."
+            
+            # Format the results into a readable string
+            formatted_results = []
+            for i, result in enumerate(results, 1):
+                title = result.get('title', 'No title')
+                body = result.get('body', 'No description')
+                url = result.get('href', '')
+                formatted_results.append(f"{i}. {title}\n   {body}\n   {url}")
+            
+            output = "\n\n".join(formatted_results)
+            logging.info(f"Search results for '{query}': Found {len(results)} results")
+            return output
     except Exception as e:
         logging.error(f"Error searching the web for '{query}': {e}")
         return f"An error occurred while searching the web for '{query}'."    
