@@ -1,4 +1,4 @@
-# Livekit  - Your Personal AI Voice Assistant
+# Nevira  - Your Personal AI Voice Assistant
 
 <div align="center">
 
@@ -17,14 +17,18 @@
 
 Nevira is a sophisticated AI assistant that can:
 
+- 🎙️ **Wake Word Detection** - Activate with "Hey Google", "Alexa", "Jarvis" or custom wake words (24/7 background listening)
+- ⌨️ **Global Hotkey** - Press Ctrl+Alt+N from anywhere to trigger Nevira instantly
+- 🖱️ **Desktop Shortcuts** - One-click activation with batch scripts
+- 🚀 **Auto-Start** - Runs on Windows startup for always-available assistance
 -  **Voice Interaction** - Natural, real-time voice conversations using Google Gemini's Realtime API
-- **Web Search** - Search the internet using DuckDuckGo integration
+- 🌐 **Web Search** - Search the internet using DuckDuckGo integration
 -  **Weather Updates** - Get current weather information for any city
--  **Email Management** - Send emails through Gmail SMTP
-- **Personality** - Speaks like a classy, slightly sarcastic butler
+- 📧 **Email Management** - Send emails through Gmail SMTP
+- 🤵 **Personality** - Speaks like a classy, slightly sarcastic butler
 -  **Noise Cancellation** - Built-in noise suppression for clear audio
 -  **Console Mode** - Text-based interaction for testing
-- **Web Interface** - Visual interface with camera support (via LiveKit)
+- 🖥️ **Web Interface** - Visual interface with camera support (via LiveKit)
 
 ---
 
@@ -45,7 +49,37 @@ Nevira is built on the **LiveKit Agents** framework and uses **Google Gemini's R
 
 ---
 
+## 🚀 Quick Start
 
+### Standard Mode (Voice Interaction)
+
+```powershell
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
+
+# Run in console mode
+python agent.py console
+```
+
+### 🎙️ Wake Word Mode (24/7 Activation)
+
+**NEW!** Trigger Nevira hands-free with voice commands or keyboard shortcuts!
+
+```powershell
+# Install wake word dependencies
+pip install pvporcupine pyaudio pynput pywin32
+
+# Get free Picovoice key from: https://console.picovoice.ai/
+# Add to .env: PICOVOICE_ACCESS_KEY=your_key
+
+# Start wake word service
+.\start_wake_service.bat
+# Say "Hey Google" or "Alexa" to activate!
+```
+
+**📚 Full wake word setup guide:** [`WAKE_WORD_SETUP.md`](WAKE_WORD_SETUP.md) | [`QUICK_START.md`](QUICK_START.md)
+
+---
 
 ##  Installation
 
@@ -63,17 +97,23 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### Step 3: Install Dependencies
+### Step 2: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**Required packages:**
+**Core packages:**
 - `livekit-agents` - Agent framework
 - `livekit-plugins-google` - Google Gemini integration
 - `livekit-plugins-noise-cancellation` - Audio enhancement
 - `ddgs` - DuckDuckGo search
+
+**Wake word packages (optional):**
+- `pvporcupine` - Wake word detection engine
+- `pyaudio` - Audio input capture
+- `pynput` - Global keyboard shortcuts
+- `pywin32` - Windows service support
 - `requests` - HTTP requests for weather
 - `python-dotenv` - Environment variable management
 - `sounddevice` - Audio device control
