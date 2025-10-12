@@ -467,3 +467,333 @@ async def take_screenshot(
     except Exception as e:
         logging.error(f"Error taking screenshot: {e}")
         return f"Could not take screenshot: {str(e)}"
+
+
+# ========================================
+# MUSIC & MEDIA CONTROL TOOLS
+# ========================================
+
+@function_tool()
+async def play_music(
+    context: RunContext,  # type: ignore
+    query: str,
+    platform: str = "youtube"
+) -> str:
+    """
+    Play music from YouTube, Spotify, or search query.
+    
+    Args:
+        query: Song name, artist, or search term
+        platform: "youtube", "spotify", or "search" (default: youtube)
+    """
+    try:
+        platform = platform.lower().strip()
+        
+        if platform == "spotify":
+            # Open Spotify with search
+            spotify_search = f"spotify:search:{query.replace(' ', '%20')}"
+            webbrowser.open(spotify_search)
+            logging.info(f"Opening Spotify to play: {query}")
+            return f"Opening Spotify to play '{query}', Boss."
+            
+        elif platform == "youtube":
+            # Open YouTube search for music
+            youtube_search = f"https://www.youtube.com/results?search_query={query.replace(' ', '+')}"
+            webbrowser.open(youtube_search)
+            logging.info(f"Opening YouTube to play: {query}")
+            return f"Opening YouTube to play '{query}', Boss. Click on the song you want."
+            
+        else:
+            # Default to YouTube
+            youtube_search = f"https://www.youtube.com/results?search_query={query.replace(' ', '+')}+music"
+            webbrowser.open(youtube_search)
+            logging.info(f"Searching YouTube for: {query}")
+            return f"Searching for '{query}' on YouTube, Boss."
+            
+    except Exception as e:
+        logging.error(f"Error playing music: {e}")
+        return f"Could not play music: {str(e)}"
+
+
+@function_tool()
+async def control_media(
+    context: RunContext,  # type: ignore
+    action: str
+) -> str:
+    """
+    Control media playback (play/pause, next, previous, stop).
+    Works with Spotify, YouTube, Windows Media Player, etc.
+    
+    Args:
+        action: "play", "pause", "next", "previous", or "stop"
+    """
+    try:
+        action = action.lower().strip()
+        
+        if action in ["play", "pause", "playpause"]:
+            pyautogui.press("playpause")
+            logging.info("Toggled play/pause")
+            return "Toggling play/pause, Boss."
+            
+        elif action in ["next", "skip"]:
+            pyautogui.press("nexttrack")
+            logging.info("Skipped to next track")
+            return "Skipping to next track, Boss."
+            
+        elif action in ["previous", "back", "prev"]:
+            pyautogui.press("prevtrack")
+            logging.info("Going to previous track")
+            return "Going back to previous track, Boss."
+            
+        elif action == "stop":
+            pyautogui.press("stop")
+            logging.info("Stopped media playback")
+            return "Stopped playback, Boss."
+            
+        else:
+            return f"Invalid action '{action}'. Use: play, pause, next, previous, or stop."
+            
+    except Exception as e:
+        logging.error(f"Error controlling media: {e}")
+        return f"Could not control media: {str(e)}"
+
+
+@function_tool()
+async def close_assistant(
+    context: RunContext  # type: ignore
+) -> str:
+    """
+    Close the Nevira assistant and terminate the session.
+    Use this when user says goodbye, exit, close, or disconnect.
+    """
+    try:
+        logging.info("User requested to close assistant - initiating shutdown")
+        
+        # Set flag for graceful shutdown
+        context.agent.close_requested = True  # type: ignore
+        
+        # Schedule immediate termination after response is sent
+        import asyncio
+        import sys
+        
+        async def delayed_shutdown():
+            await asyncio.sleep(2)  # Give time for response to be sent
+            logging.info("Terminating Nevira assistant process...")
+            sys.exit(0)
+        
+        # Start shutdown task
+        asyncio.create_task(delayed_shutdown())
+        
+        return "Goodbye, Boss. Closing assistant now."
+        
+    except Exception as e:
+        logging.error(f"Error closing assistant: {e}")
+        # Force exit as backup
+        import sys
+        sys.exit(0)
+
+
+@function_tool()
+async def force_close_application(
+    context: RunContext,  # type: ignore
+    app_name: str
+) -> str:
+    """
+    Force close any running application by name.
+    More powerful than close_application - works with any app.
+    
+    Args:
+        app_name: Name or partial name of the application process
+    """
+    try:
+        app_name = app_name.lower().strip()
+        closed_count = 0
+        
+        # Find and terminate matching processes
+        for proc in psutil.process_iter(['pid', 'name']):
+            try:
+                process_name = proc.info['name'].lower()
+                if app_name in process_name:
+                    proc.terminate()
+                    closed_count += 1
+                    logging.info(f"Terminated process: {proc.info['name']}")
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
+        
+        if closed_count > 0:
+            return f"Closed {closed_count} instance(s) of {app_name}, Boss."
+        else:
+            return f"No running application found matching '{app_name}', Boss."
+            
+    except Exception as e:
+        logging.error(f"Error force closing application: {e}")
+        return f"Could not close {app_name}: {str(e)}"
+
+
+@function_tool()
+async def open_youtube_music(
+    context: RunContext,  # type: ignore
+    query: Optional[str] = None
+) -> str:
+    """
+    Open YouTube Music and optionally search for a song.
+    
+    Args:
+        query: Optional song name or artist to search for
+    """
+    try:
+        if query:
+            # Search on YouTube Music
+            yt_music_search = f"https://music.youtube.com/search?q={query.replace(' ', '+')}"
+            webbrowser.open(yt_music_search)
+            logging.info(f"Opening YouTube Music with search: {query}")
+            return f"Opening YouTube Music to search for '{query}', Boss."
+        else:
+            # Just open YouTube Music homepage
+            webbrowser.open("https://music.youtube.com/")
+            logging.info("Opening YouTube Music")
+            return "Opening YouTube Music, Boss."
+            
+    except Exception as e:
+        logging.error(f"Error opening YouTube Music: {e}")
+        return f"Could not open YouTube Music: {str(e)}"
+
+
+@function_tool()
+async def open_spotify(
+    context: RunContext,  # type: ignore
+    query: Optional[str] = None
+) -> str:
+    """
+    Open Spotify desktop app or web player and optionally search for a song.
+    
+    Args:
+        query: Optional song name or artist to search for
+    """
+    try:
+        # Try to open Spotify desktop app first
+        if platform.system() == "Windows":
+            try:
+                # Check if Spotify is installed
+                spotify_path = os.path.join(os.environ.get('APPDATA', ''), 
+                                          'Spotify', 'Spotify.exe')
+                if os.path.exists(spotify_path):
+                    if query:
+                        # Open Spotify with search
+                        search_uri = f"spotify:search:{query.replace(' ', '%20')}"
+                        webbrowser.open(search_uri)
+                    else:
+                        subprocess.Popen([spotify_path])
+                    logging.info("Opened Spotify desktop app")
+                    return f"Opening Spotify{' to search for ' + query if query else ''}, Boss."
+                else:
+                    raise FileNotFoundError("Spotify not found")
+            except:
+                # Fallback to web player
+                if query:
+                    spotify_url = f"https://open.spotify.com/search/{query.replace(' ', '%20')}"
+                else:
+                    spotify_url = "https://open.spotify.com/"
+                webbrowser.open(spotify_url)
+                logging.info("Opened Spotify web player")
+                return f"Opening Spotify web player{' to search for ' + query if query else ''}, Boss."
+        else:
+            # Non-Windows: use web player
+            if query:
+                spotify_url = f"https://open.spotify.com/search/{query.replace(' ', '%20')}"
+            else:
+                spotify_url = "https://open.spotify.com/"
+            webbrowser.open(spotify_url)
+            return f"Opening Spotify{' to search for ' + query if query else ''}, Boss."
+            
+    except Exception as e:
+        logging.error(f"Error opening Spotify: {e}")
+        return f"Could not open Spotify: {str(e)}"
+
+
+@function_tool()
+async def close_browser(
+    context: RunContext,  # type: ignore
+    browser: Optional[str] = None
+) -> str:
+    """
+    Close browser windows (Chrome, Edge, Firefox) or specific YouTube/music tabs.
+    
+    Args:
+        browser: Optional browser name ("chrome", "edge", "firefox") or "all" for all browsers
+    """
+    try:
+        browser_processes = {
+            "chrome": ["chrome.exe"],
+            "edge": ["msedge.exe"],
+            "firefox": ["firefox.exe"],
+        }
+        
+        if browser and browser.lower() in browser_processes:
+            # Close specific browser
+            for proc_name in browser_processes[browser.lower()]:
+                os.system(f'taskkill /f /im {proc_name} 2>nul')
+            logging.info(f"Closed {browser}")
+            return f"Closed {browser}, Boss."
+        else:
+            # Close all browsers
+            for browser_name, processes in browser_processes.items():
+                for proc_name in processes:
+                    os.system(f'taskkill /f /im {proc_name} 2>nul')
+            logging.info("Closed all browsers")
+            return "Closed all browsers, Boss."
+            
+    except Exception as e:
+        logging.error(f"Error closing browser: {e}")
+        return f"Could not close browser: {str(e)}"
+
+
+@function_tool()
+async def close_youtube(
+    context: RunContext  # type: ignore
+) -> str:
+    """
+    Close the browser (which closes YouTube tabs).
+    Since YouTube runs in browser, this closes the active browser window.
+    """
+    try:
+        # Try to close the most common browsers
+        closed_any = False
+        
+        # Try Chrome first (most common)
+        result = os.system('taskkill /fi "WINDOWTITLE eq *YouTube*" /im chrome.exe /f 2>nul')
+        if result == 0:
+            closed_any = True
+        else:
+            # If specific YouTube window not found, close Chrome entirely
+            result = os.system('taskkill /im chrome.exe /f 2>nul')
+            if result == 0:
+                closed_any = True
+        
+        # Try Edge
+        result = os.system('taskkill /fi "WINDOWTITLE eq *YouTube*" /im msedge.exe /f 2>nul')
+        if result == 0:
+            closed_any = True
+        else:
+            result = os.system('taskkill /im msedge.exe /f 2>nul')
+            if result == 0:
+                closed_any = True
+        
+        # Try Firefox
+        result = os.system('taskkill /fi "WINDOWTITLE eq *YouTube*" /im firefox.exe /f 2>nul')
+        if result == 0:
+            closed_any = True
+        else:
+            result = os.system('taskkill /im firefox.exe /f 2>nul')
+            if result == 0:
+                closed_any = True
+        
+        if closed_any:
+            logging.info("Closed YouTube/browser")
+            return "Closed YouTube, Boss."
+        else:
+            return "No browser windows found to close, Boss."
+            
+    except Exception as e:
+        logging.error(f"Error closing YouTube: {e}")
+        return f"Could not close YouTube: {str(e)}"

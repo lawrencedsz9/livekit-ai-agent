@@ -23,7 +23,17 @@ from tools import (
     get_system_status,
     get_schedule,
     get_time_and_date,
-    take_screenshot
+    take_screenshot,
+    # Music & media control
+    play_music,
+    control_media,
+    open_youtube_music,
+    open_spotify,
+    # Enhanced control
+    close_assistant,
+    force_close_application,
+    close_browser,
+    close_youtube
 )
 
 load_dotenv()
@@ -53,14 +63,42 @@ class Assistant(Agent):
                 get_system_status,
                 get_schedule,
                 get_time_and_date,
-                take_screenshot
+                take_screenshot,
+                # Music & media control
+                play_music,
+                control_media,
+                open_youtube_music,
+                open_spotify,
+                # Enhanced control
+                close_assistant,
+                force_close_application,
+                close_browser,
+                close_youtube
             ],
         )
+        self.close_requested = False
 
 
     async def on_agent_started(self, session: AgentSession):
         await super().on_agent_started(session)
         logger.info("Nevira assistant started and ready")
+
+    async def on_agent_stopped(self, session: AgentSession):
+        await super().on_agent_stopped(session)
+        logger.info("Nevira assistant stopped")
+        # Exit the program when assistant stops
+        if self.close_requested:
+            logger.info("Close requested, terminating session...")
+            import sys
+            import os
+            # Force complete shutdown
+            try:
+                # Disconnect from room cleanly
+                await session.room.disconnect()
+            except:
+                pass
+            # Force exit the process
+            os._exit(0)  # More forceful than sys.exit()
 
 
 async def entrypoint(ctx: agents.JobContext):

@@ -1,0 +1,263 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                  NEVIRA ENHANCED FEATURES - QUICK REFERENCE                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          🎵 MUSIC COMMANDS                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Play Music
+──────────
+"Play [song/artist]"              → YouTube search
+"Play [song] on Spotify"          → Spotify search
+"Play [song] on YouTube Music"    → YT Music search
+"Open Spotify"                    → Launch Spotify app/web
+"Open YouTube Music"              → Launch YT Music
+
+Control Playback
+────────────────
+"Pause" / "Play"                  → Toggle play/pause
+"Next" / "Skip"                   → Next track
+"Previous" / "Back"               → Previous track
+"Stop"                            → Stop playback
+
+Volume Control
+──────────────
+"Turn up the volume"              → Increase volume
+"Turn down the volume"            → Decrease volume
+"Mute"                            → Mute audio
+"Unmute"                          → Unmute audio
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          🚪 EXIT & CONTROL                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Close Assistant
+───────────────
+"Goodbye" / "Bye"                 → Clean exit
+"Exit" / "Close"                  → Close assistant
+"Disconnect"                      → End session
+
+Close Applications
+──────────────────
+"Close [app name]"                → Close specific app
+"Force close [app]"               → Force terminate app
+"Close Calculator"                → Example: close calc
+"Force close Chrome"              → Example: kill chrome
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          💻 APP & SYSTEM CONTROL                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Open Applications
+─────────────────
+"Open Calculator"                 → Launch calculator
+"Open Notepad"                    → Launch notepad
+"Open Paint"                      → Launch paint
+"Open File Explorer"              → Launch explorer
+
+Open Websites
+─────────────
+"Open YouTube"                    → youtube.com
+"Open Facebook"                   → facebook.com
+"Open Gmail"                      → gmail.com
+"Search Google for [query]"       → Google search
+
+System Info
+───────────
+"What's the time?"                → Current time/date
+"Check system status"             → CPU, RAM, battery
+"Take a screenshot"               → Save screenshot
+"What's my schedule today?"       → Show schedule
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          📋 USAGE EXAMPLES                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Music Session
+─────────────
+You: "Play Imagine Dragons"
+Nevira: "Opening YouTube to play 'Imagine Dragons'..."
+[Click first video]
+
+You: "Pause"
+Nevira: "Toggling play/pause, Boss."
+
+You: "Next song"
+Nevira: "Skipping to next track, Boss."
+
+You: "Stop"
+Nevira: "Stopped playback, Boss."
+
+
+Spotify Workflow
+────────────────
+You: "Open Spotify"
+Nevira: "Opening Spotify, Boss."
+
+You: "Play jazz music"
+[Search appears in Spotify]
+
+You: "Turn up the volume"
+Nevira: "Volume increased, Boss."
+
+
+App Management
+──────────────
+You: "Open Calculator"
+Nevira: "Opening calculator now, Boss."
+
+You: "Close Calculator"
+Nevira: "Closed calculator, Boss."
+
+
+Clean Exit
+──────────
+You: "That's all, goodbye"
+Nevira: "Goodbye, Boss. Closing assistant now."
+[Assistant closes cleanly]
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          🔧 HOW IT WORKS                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Music Playback
+──────────────
+1. Nevira opens your requested platform (YouTube/Spotify/YT Music)
+2. Searches for your song/artist
+3. You click on the desired result to play
+4. Use voice controls to pause/skip/stop
+
+Media Controls
+──────────────
+• Uses Windows media hotkeys (playpause, nexttrack, etc.)
+• Works with Spotify, YouTube, VLC, Windows Media Player
+• Player must be active/focused for best results
+
+Force Close
+───────────
+• Searches all running processes by name
+• Terminates all matching processes
+• More powerful than regular close
+• Use for apps that won't close normally
+
+Auto Disconnect
+───────────────
+• Saying "goodbye" triggers close_assistant() function
+• Agent sets close_requested flag
+• Clean shutdown with goodbye message
+• Program terminates gracefully
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          ⚙️ PLATFORM SUPPORT                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Music Services
+──────────────
+✅ YouTube             (Free, browser-based)
+✅ Spotify             (Desktop app or web player)
+✅ YouTube Music       (Web player)
+⚠️ Requires manual click to start playing
+
+Media Players
+─────────────
+✅ Spotify Desktop
+✅ YouTube (in browser)
+✅ VLC Media Player
+✅ Windows Media Player
+✅ Most other media apps
+
+Application Control
+───────────────────
+✅ Windows built-in apps (Calculator, Notepad, Paint)
+✅ Browsers (Chrome, Edge, Firefox)
+✅ Third-party apps (Spotify, Discord, etc.)
+✅ Force close any running process
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          💡 PRO TIPS                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Music Tips
+──────────
+✓ Be specific: "Play Bohemian Rhapsody by Queen"
+✓ Specify platform if you have preference
+✓ Keep music player window visible for controls
+✓ Use "pause" instead of closing browser tab
+
+Exit Tips
+─────────
+✓ Always use "goodbye" for clean exit
+✓ Don't force-kill terminal unless necessary
+✓ Close important apps before exiting
+✓ Use "Disconnect" button in React UI
+
+App Control Tips
+────────────────
+✓ Use exact app names: "calculator", "notepad"
+✓ Try "force close" if regular close fails
+✓ Check Task Manager for exact process names
+✓ Some system apps may resist closing
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          🐛 TROUBLESHOOTING                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Problem: Music won't play
+Solution: Platform opens with search results - click first result to play
+
+Problem: Play/pause doesn't work
+Solution: Click music player window to give it focus
+
+Problem: Can't close assistant
+Solution: Say exact keywords: "goodbye", "bye", "exit", or "close"
+
+Problem: Force close doesn't work
+Solution: Check exact process name in Task Manager
+
+Problem: Volume controls don't work
+Solution: Check Windows sound settings and drivers
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          📚 DOCUMENTATION                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Full Guides
+───────────
+• ENHANCED_FEATURES.md  - Complete feature documentation
+• README.md             - Main project documentation
+• tools.py              - All function implementations
+• prompts.py            - Agent instructions
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                         QUICK START COMMANDS
+═══════════════════════════════════════════════════════════════════════════════
+
+Start Nevira:
+    python agent.py console
+
+Try music:
+    "Play some music"
+    "Pause"
+    "Next"
+
+Try exit:
+    "Goodbye"
+
+Try app control:
+    "Open Calculator"
+    "Close Calculator"
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                    🎉 ENJOY YOUR ENHANCED NEVIRA! 🎵🤖
+═══════════════════════════════════════════════════════════════════════════════
